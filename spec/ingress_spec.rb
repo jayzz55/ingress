@@ -1,5 +1,6 @@
 require "spec_helper"
 require "securerandom"
+require "ingress/error"
 
 RSpec.describe Ingress do
   class TestUser
@@ -129,8 +130,10 @@ RSpec.describe Ingress do
       end
 
       context "when class is given instead of instance" do
-        it "should fail but shouldn't error" do
-          expect(permissions.can?(:update, TestObject)).to be_falsy
+        it "should raise an error" do
+          expect { permissions.can?(:update, TestObject) }.to raise_error(
+            Ingress::Error, 'This permission contains a condition lambda and can only accept an instance instead of a class.'
+          )
         end
       end
     end
@@ -436,8 +439,10 @@ RSpec.describe Ingress do
         expect(permissions.can?(:foo, TestObject.new(id: 4))).to be_falsy
       end
 
-      it "should be able to do action if Class is provided" do
-        expect(permissions.can?(:with_block, TestObject)).to be_truthy
+      it "raises an error if Class is provided" do
+        expect { permissions.can?(:with_block, TestObject) }.to raise_error(
+          Ingress::Error, 'This permission contains a condition lambda and can only accept an instance instead of a class.'
+        )
       end
     end
 

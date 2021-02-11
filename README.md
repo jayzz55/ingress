@@ -139,8 +139,8 @@ post = user.posts.first # assume we can get the list of posts form the user obje
 user_permissions.can?(:update, post) # returns true
 ```
 
-The condition lambda always takes two parameters, the `user` and an `object`, the object is whatever we supply to the `can?` method,
-when we check permissions.
+The condition lambda always takes two parameters, the `user` and an `object`, the object is an instance of a class we supply to the `can?` method,
+when we check permissions. Note: a permission rule with some conditions will raise an error if given a Class instead of an Instance.
 
 Let's add our admin role:
 
