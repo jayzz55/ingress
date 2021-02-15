@@ -4,8 +4,6 @@ module Ingress
   class PermissionRule
     attr_reader :action, :subject, :conditions
 
-    CONDITION_LAMBDA_ERROR_MESSAGE = 'This permission contains a condition lambda and can only accept an instance instead of a class.'
-
     def initialize(allows:, action:, subject:, conditions: nil)
       @allows = allows
       @action = action
@@ -35,7 +33,7 @@ module Ingress
     end
 
     def raise_error!
-      raise Ingress::Error.new(CONDITION_LAMBDA_ERROR_MESSAGE)
+      raise InvalidSubjectError.new
     end
 
     def action_matches?(given_action)

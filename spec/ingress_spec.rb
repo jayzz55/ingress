@@ -132,7 +132,7 @@ RSpec.describe Ingress do
       context "when class is given instead of instance" do
         it "should raise an error" do
           expect { permissions.can?(:update, TestObject) }.to raise_error(
-            Ingress::Error, 'This permission contains a condition lambda and can only accept an instance instead of a class.'
+            Ingress::InvalidSubjectError, 'This permission contains a condition lambda and can only accept an instance instead of a class.'
           )
         end
       end
@@ -441,7 +441,7 @@ RSpec.describe Ingress do
 
       it "raises an error if Class is provided" do
         expect { permissions.can?(:with_block, TestObject) }.to raise_error(
-          Ingress::Error, 'This permission contains a condition lambda and can only accept an instance instead of a class.'
+          Ingress::InvalidSubjectError, 'This permission contains a condition lambda and can only accept an instance instead of a class.'
         )
       end
     end
